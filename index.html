@@ -1,20 +1,28 @@
-
 <!DOCTYPE html>
 <html lang="bn">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Barakah Nur Fashion | Premium E-Commerce Shop</title>
+
+  <!-- PWA Manifest & Meta Tags -->
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#4f46e5" />
+
+  <!-- Tailwind CSS & Font Awesome Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <!-- Firebase SDKs for Realtime Cloud Sync -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  
+  <!-- Custom VIP CSS -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body class="bg-gray-50 text-gray-800 antialiased selection:bg-indigo-500 selection:text-white">
 
+  <!-- VIP Announcement Bar -->
   <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white text-xs sm:text-sm py-2 px-4 shadow-md">
     <div class="max-w-7xl mx-auto flex justify-between items-center">
       <span class="font-medium flex items-center gap-2">
@@ -32,6 +40,7 @@
     </div>
   </div>
 
+  <!-- Main Navigation Header -->
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100">
     <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center gap-4">
       <a href="#" class="flex items-center gap-3">
@@ -44,11 +53,13 @@
         </div>
       </a>
 
+      <!-- Search Input -->
       <div class="hidden md:flex flex-1 max-w-md relative">
         <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="খুঁজুন: ঘড়ি, সানগ্লাস, মানিব্যাগ..." class="w-full bg-gray-100/80 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all pl-10" />
         <i class="fas fa-search absolute left-3.5 top-3.5 text-gray-400"></i>
       </div>
 
+      <!-- Action Buttons -->
       <div class="flex items-center gap-3">
         <button onclick="openAdminModal()" class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex items-center gap-2">
           <i class="fas fa-user-shield text-indigo-600"></i> অ্যাডমিন
@@ -61,6 +72,7 @@
     </div>
   </header>
 
+  <!-- Dynamic Product Section -->
   <main class="max-w-7xl mx-auto px-4 py-8">
     <section class="mb-8">
       <div class="flex justify-between items-center mb-6">
@@ -69,10 +81,13 @@
           <p class="text-sm text-gray-500">১০০% অরিজিনাল কোয়ালিটি ও গ্যারান্টিসহ</p>
         </div>
       </div>
-      <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+      <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <!-- Products will be injected dynamically via JS -->
+      </div>
     </section>
   </main>
 
+  <!-- Cart Drawer Component -->
   <div id="cartModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex justify-end">
     <div class="w-full max-w-md bg-white h-full shadow-2xl flex flex-col justify-between p-6 overflow-y-auto transform transition-transform">
       <div>
@@ -84,18 +99,22 @@
             <i class="fas fa-times text-xl"></i>
           </button>
         </div>
-        <div id="cartItems" class="py-4 divide-y"></div>
+        <div id="cartItems" class="py-4 divide-y">
+          <!-- Cart Items injected via JS -->
+        </div>
       </div>
+      
       <div class="border-t pt-4">
         <div class="flex justify-between text-base font-bold text-gray-900 mb-4">
           <span>সর্বমোট মূল্য:</span>
           <span id="cartTotal">৳০</span>
         </div>
         <form id="checkoutForm" onsubmit="handleCheckout(event)" class="space-y-3">
-          <input type="text" id="custName" required placeholder="আপনার নাম" class="w-full border border-gray-200 rounded-lg p-2.5 text-sm outline-none" />
-          <input type="tel" id="custPhone" required placeholder="মোবাইল নম্বর" class="w-full border border-gray-200 rounded-lg p-2.5 text-sm outline-none" />
-          <textarea id="custAddress" required placeholder="পূর্ণাঙ্গ ঠিকানা" class="w-full border border-gray-200 rounded-lg p-2.5 text-sm outline-none" rows="2"></textarea>
-          <button type="submit" class="w-full py-3 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-bold rounded-xl shadow-lg hover:opacity-95 transition-all flex justify-center items-center gap-2">
+          <input type="text" id="custName" required placeholder="আপনার নাম" class="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-indigo-500 outline-none" />
+          <input type="tel" id="custPhone" required placeholder="মোবাইল নম্বর" class="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-indigo-500 outline-none" />
+          <textarea id="custAddress" required placeholder="পূর্ণাঙ্গ ঠিকানা" class="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-indigo-500 outline-none" rows="2"></textarea>
+          
+          <button type="submit" class="w-full py-3 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-bold rounded-xl shadow-lg shadow-indigo-200 hover:opacity-95 transition-all flex justify-center items-center gap-2">
             <i class="fab fa-whatsapp text-lg"></i> ৪-ডিজিট কোডসহ অর্ডার কনফার্ম করুন
           </button>
         </form>
@@ -103,10 +122,50 @@
     </div>
   </div>
 
+  <!-- Admin Cloud Panel Modal -->
   <div id="adminModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl p-6 relative">
       <button onclick="closeAdminModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
         <i class="fas fa-times text-xl"></i>
       </button>
       <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-        <i class="fas fa-cloud-
+        <i class="fas fa-cloud-upload-alt text-indigo-600"></i> গ্লোবাল ক্লাউড অ্যাডমিন প্যানেল
+      </h3>
+      
+      <div id="adminAuth">
+        <p class="text-sm text-gray-500 mb-4">অ্যাডমিন পাসওয়ার্ড প্রবেশ করান:</p>
+        <input type="password" id="adminPass" placeholder="পাসওয়ার্ড লিখুন" class="w-full border border-gray-200 rounded-lg p-2.5 mb-3 text-sm focus:ring-2 focus:ring-indigo-500 outline-none" />
+        <button onclick="authenticateAdmin()" class="w-full py-2.5 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors">লগইন</button>
+      </div>
+
+      <form id="adminPostForm" onsubmit="uploadProduct(event)" class="hidden space-y-3">
+        <input type="text" id="prodTitle" required placeholder="পণ্যের নাম" class="w-full border border-gray-200 rounded-lg p-2.5 text-sm outline-none" />
+        <div class="grid grid-cols-2 gap-2">
+          <input type="number" id="prodRegPrice" required placeholder="মূল দাম (৳)" class="w-full border border-gray-200 rounded-lg p-2.5 text-sm outline-none" />
+          <input type="number" id="prodOfferPrice" required placeholder="অফার দাম (৳)" class="w-full border border-gray-200 rounded-lg p-2.5 text-sm outline-none" />
+        </div>
+        <input type="text" id="prodImgUrl" required placeholder="ছবির লিংক (Image URL)" class="w-full border border-gray-200 rounded-lg p-2.5 text-sm outline-none" />
+        <input type="text" id="prodWarranty" required placeholder="ওয়ারেন্টি (যেমন: ১ বছরের মেশিন ওয়ারেন্টি)" class="w-full border border-gray-200 rounded-lg p-2.5 text-sm outline-none" />
+        <input type="text" id="prodDurability" required placeholder="স্থায়িত্ব (যেমন: Water Resistant 30m)" class="w-full border border-gray-200 rounded-lg p-2.5 text-sm outline-none" />
+        
+        <button type="submit" class="w-full py-3 bg-emerald-600 text-white font-bold rounded-xl shadow hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2">
+          <i class="fas fa-globe"></i> গ্লোবাল ক্লাউডে পোস্ট করুন
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Floating Social Buttons -->
+  <div class="fixed bottom-6 right-6 z-40 flex flex-col gap-3">
+    <a href="https://m.me/19cFQcVJE4" target="_blank" class="w-13 h-13 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-xl hover:scale-110 transition-transform p-3">
+      <i class="fab fa-facebook-messenger text-2xl"></i>
+    </a>
+    <a href="https://wa.me/8801812418091" target="_blank" class="w-13 h-13 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-xl hover:scale-110 transition-transform p-3">
+      <i class="fab fa-whatsapp text-2xl"></i>
+    </a>
+  </div>
+
+  <!-- External Script -->
+  <script src="app.js"></script>
+</body>
+</html>
